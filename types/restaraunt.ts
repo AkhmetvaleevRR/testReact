@@ -12,7 +12,7 @@ export interface Review {
   rating: number;
 }
 
-export interface Restaurant {
+export interface Restaraunt {
   id: string;
   name: string;
   menu: MenuItem[];

@@ -1,6 +1,6 @@
-import type { Restaurant } from "../types/restaraunt";
+import type { Restaraunt } from "../types/restaraunt";
 
-export const restaurants:Array<Restaurant> = [
+export const restaurants:Array<Restaraunt> = [
   {
     id: "a757a0e9-03c1-4a2a-b384-8ac21dbe2fb2",
     name: "Dishoom",
