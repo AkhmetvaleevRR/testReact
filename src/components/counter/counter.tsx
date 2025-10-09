@@ -1,6 +1,6 @@
 import { useCounter } from "./use-counter";
 
-export const Counter = ({max} : {max : number}) => {
+export const Counter = ({ max }: { max: number }) => {
   const { value, decrement, increment } = useCounter(max);
 
   return (

@@ -1,11 +1,11 @@
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from "react";
 
-export const Layout = ({children}: PropsWithChildren) => {
+export const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <header>Header</header>
-        {children}
+      {children}
       <footer>Footer</footer>
     </>
-  )
-}
+  );
+};

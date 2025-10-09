@@ -1,8 +1,7 @@
-
 import { useState } from "react";
 
 export const useCounter = (max: number) => {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
 
   const decrement = () => {
     if (value > 0) {
@@ -11,7 +10,7 @@ export const useCounter = (max: number) => {
   };
 
   const increment = () => {
-    console.log(max)
+    console.log(max);
     if (value < max) {
       setValue(value + 1);
     }
