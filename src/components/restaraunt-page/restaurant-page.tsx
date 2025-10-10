@@ -1,6 +1,6 @@
 import { restaurants } from "../../../data/mock.ts";
 import { useState } from "react";
-import { RestarauntItem } from "../restaraunt/restaraunt.tsx";
+import { RestaurantItem } from "../restaurant/restaurant.tsx";
 
 export const RestaurantPage = () => {
   const [selectedId, setSelectedId] = useState<string>("");
@@ -11,15 +11,15 @@ export const RestaurantPage = () => {
 
   return (
     <>
-      {restaurants.map((restaraunt) => (
+      {restaurants.map((restaurant) => (
         <button
-          onClick={() => setSelectedId(restaraunt.id)}
-          key={restaraunt.id}
+          onClick={() => setSelectedId(restaurant.id)}
+          key={restaurant.id}
         >
-          {restaraunt.name}
+          {restaurant.name}
         </button>
       ))}
-      <RestarauntItem restaraunt={selectedRestaurant!} />
+      <RestaurantItem restaurant={selectedRestaurant!} />
     </>
   );
 };

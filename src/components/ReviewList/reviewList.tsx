@@ -1,17 +1,14 @@
-import type { Review } from "../../../types/restaraunt";
+import type { Review } from "../../../types/restaurant";
 
 export function ReviewList({ reviews }: { reviews: Review[] }) {
   return (
-    <>
-      {reviews.length && (
-        <ul>
-          {reviews.map((reviewItem) => (
-            <li key={reviewItem.id}>
-              {reviewItem.user}: {reviewItem.text}
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
+    <ul>
+      {reviews.length > 0 &&
+        reviews.map((reviewItem) => (
+          <li key={reviewItem.id}>
+            {reviewItem.user}: {reviewItem.text}
+          </li>
+        ))}
+    </ul>
   );
 }

@@ -1,19 +1,16 @@
-import type { MenuItem } from "../../../types/restaraunt";
+import type { MenuItem } from "../../../types/restaurant";
 import { Counter } from "../counter/counter";
 
 export function MenuList({ menu }: { menu: MenuItem[] }) {
   return (
-    <>
-      {menu.length && (
-        <ul>
-          {menu.map((menuItem) => (
-            <li key={menuItem.id}>
-              {menuItem.name} {menuItem.price}$
-              <Counter max={5} />
-            </li>
-          ))}
-        </ul>
-      )}
-    </>
+    <ul>
+      {menu.length &&
+        menu.map((menuItem) => (
+          <li key={menuItem.id}>
+            {menuItem.name} {menuItem.price}$
+            <Counter max={5} />
+          </li>
+        ))}
+    </ul>
   );
 }
