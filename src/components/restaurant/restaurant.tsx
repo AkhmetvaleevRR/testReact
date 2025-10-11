@@ -1,6 +1,7 @@
 import type { restaurant } from "../../../types/restaurant";
 import { MenuList } from "../menuList/menuList.tsx";
-import { ReviewList } from "../ReviewList/reviewList.tsx";
+import { ReviewForm } from "../reviewForm/reviewForm.tsx";
+import { ReviewList } from "../reviewList/reviewList.tsx";
 
 export const RestaurantItem = ({ restaurant }: { restaurant: restaurant }) => {
   return (
@@ -10,6 +11,7 @@ export const RestaurantItem = ({ restaurant }: { restaurant: restaurant }) => {
       <MenuList menu={restaurant.menu} />
       <h3>Reviews</h3>
       <ReviewList reviews={restaurant.reviews} />
+      <ReviewForm />
     </div>
   );
 };
