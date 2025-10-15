@@ -1,5 +1,5 @@
 import type { MenuItem } from "../../../types/restaurant";
-import { Counter } from "../counter/counter";
+import { DishCounter } from "../dishCounter/dishCounter";
 
 export function MenuList({ menu }: { menu: MenuItem[] }) {
   return (
@@ -8,7 +8,10 @@ export function MenuList({ menu }: { menu: MenuItem[] }) {
         menu.map((menuItem) => (
           <li key={menuItem.id}>
             {menuItem.name} {menuItem.price}$
-            <Counter max={5} />
+            <DishCounter
+              max={5}
+              initialValue={0}
+            />
           </li>
         ))}
     </ul>

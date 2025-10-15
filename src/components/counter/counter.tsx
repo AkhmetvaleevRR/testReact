@@ -1,13 +1,20 @@
-import { useCounter } from "./use-counter";
+interface Props {
+  max: number;
+  value: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
+}
 
-export const Counter = ({ max }: { max: number }) => {
-  const { value, decrement, increment } = useCounter(max);
-
+export const Counter = ({ max, value, onIncrement, onDecrement }: Props) => {
   return (
     <div>
-      <button onClick={decrement}>-</button>
+      <button onClick={onDecrement} disabled={value === 0}>
+        -
+      </button>
       <span>{value}</span>
-      <button onClick={increment}>+</button>
+      <button onClick={onIncrement} disabled={value >= max}>
+        +
+      </button>
     </div>
   );
 };

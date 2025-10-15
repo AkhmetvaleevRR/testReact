@@ -1,4 +1,5 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
+import { Counter } from "../counter/counter";
 
 interface initialFormProps {
   name: string;
@@ -21,8 +22,7 @@ type ReviewFormAction =
 const reducer = (
   state: initialFormProps,
   action: ReviewFormAction
-) : initialFormProps => {
-
+): initialFormProps => {
   switch (action.type) {
     case "SET_NAME":
       return {
@@ -47,6 +47,7 @@ const reducer = (
 };
 
 export const ReviewForm = () => {
+  const [reviewCount, setReviewCount] = useState(0);
   const [form, dispatch] = useReducer(reducer, INITIAL_FORM);
 
   const { name, text, address } = form;
@@ -57,8 +58,7 @@ export const ReviewForm = () => {
     dispatch({ type: "SET_TEXT", payload: text });
   const setAddress = (address: string) =>
     dispatch({ type: "SET_ADDRESS", payload: address });
-  const ClearForm = () =>
-    dispatch({ type: "CLEAR_FORM" });
+  const ClearForm = () => dispatch({ type: "CLEAR_FORM" });
 
   return (
     <form onSubmit={(event) => event.preventDefault()}>
@@ -89,6 +89,12 @@ export const ReviewForm = () => {
           }}
         />
       </div>
+      <Counter
+        max={5}
+        value={reviewCount}
+        onIncrement={() => setReviewCount(reviewCount + 1)}
+        onDecrement={() => setReviewCount(reviewCount - 1)}
+      />
       <button onClick={ClearForm}>clear form</button>
     </form>
   );
