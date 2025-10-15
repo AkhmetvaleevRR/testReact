@@ -58,7 +58,10 @@ export const ReviewForm = () => {
     dispatch({ type: "SET_TEXT", payload: text });
   const setAddress = (address: string) =>
     dispatch({ type: "SET_ADDRESS", payload: address });
-  const ClearForm = () => dispatch({ type: "CLEAR_FORM" });
+  const ClearForm = () => {
+    dispatch({ type: "CLEAR_FORM" });
+    setReviewCount(0);
+  };
 
   return (
     <form onSubmit={(event) => event.preventDefault()}>
