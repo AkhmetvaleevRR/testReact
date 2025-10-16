@@ -1,3 +1,5 @@
+import styles from "./counter.module.css";
+
 interface Props {
   max: number;
   value: number;
@@ -7,12 +9,12 @@ interface Props {
 
 export const Counter = ({ max, value, onIncrement, onDecrement }: Props) => {
   return (
-    <div>
-      <button onClick={onDecrement} disabled={value === 0}>
+    <div className={styles.counter}>
+      <button className={styles.button} onClick={onDecrement} disabled={value === 0}>
         -
       </button>
-      <span>{value}</span>
-      <button onClick={onIncrement} disabled={value >= max}>
+      <span className={styles.value}>{value}</span>
+      <button className={styles.button} onClick={onIncrement} disabled={value >= max}>
         +
       </button>
     </div>

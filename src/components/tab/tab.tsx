@@ -1,4 +1,5 @@
 import type { MouseEventHandler } from "react";
+import styles from "./tab.module.css";
 
 interface Props {
   name: string;
@@ -8,7 +9,7 @@ interface Props {
 
 export const Tab = ({ name, isActive, onClick }: Props) => {
   return (
-    <button disabled={isActive} onClick={onClick}>
+    <button className={styles.tab} disabled={isActive} onClick={onClick}>
       {name}
     </button>
   );
