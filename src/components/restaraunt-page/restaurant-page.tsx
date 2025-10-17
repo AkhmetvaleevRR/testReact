@@ -1,5 +1,5 @@
 import { restaurants } from "../../../data/mock.ts";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { RestaurantItem } from "../restaurant/restaurant.tsx";
 import { Tab } from "../tab/tab.tsx";
 import styles from "./restaurant-page.module.css";
@@ -7,11 +7,9 @@ import styles from "./restaurant-page.module.css";
 export const RestaurantPage = () => {
   const [selectedId, setSelectedId] = useState("");
 
- const selectedRestaurant = useMemo(() => 
-  selectedId 
+  const selectedRestaurant = selectedId
     ? restaurants.find((item) => item.id === selectedId)
-    : restaurants[0]
-, [selectedId]);
+    : restaurants[0];
 
   return (
     <div className={styles.container}>

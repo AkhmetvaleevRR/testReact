@@ -23,9 +23,9 @@ const ScrollProgressBar = () => {
   }, []);
 
   return (
-    <div className={styles["scroll-progress-bar"]}>
+    <div className={styles["progressBar"]}>
       <div
-        className={styles["scroll-progress-bar__fill"]}
+        className={styles["progressBarColored"]}
         style={{ width: `${scrollProgress}%` }}
       />
     </div>
