@@ -1,5 +1,6 @@
 import { useReducer, useState } from "react";
 import { Counter } from "../counter/counter";
+import styles from "./reviewForm.module.css";
 
 interface initialFormProps {
   name: string;
@@ -64,28 +65,34 @@ export const ReviewForm = () => {
   };
 
   return (
-    <form onSubmit={(event) => event.preventDefault()}>
-      <div>
+    <form className={styles.form} onSubmit={(event) => event.preventDefault()}>
+      <h2>
+        Review Form
+      </h2>
+      <div className={styles.field}>
         <label>name</label>
         <input
+          className={styles.input}
           value={name}
           onChange={(event) => {
             setName(event.target.value);
           }}
         />
       </div>
-      <div>
+      <div className={styles.field}>
         <label>adress</label>
         <input
+          className={styles.input}
           value={address}
           onChange={(event) => {
             setAddress(event.target.value);
           }}
         />
       </div>
-      <div>
+      <div className={styles.field}>
         <label>text</label>
         <input
+          className={styles.input}
           value={text}
           onChange={(event) => {
             setText(event.target.value);
@@ -98,7 +105,7 @@ export const ReviewForm = () => {
         onIncrement={() => setReviewCount(reviewCount + 1)}
         onDecrement={() => setReviewCount(reviewCount - 1)}
       />
-      <button onClick={ClearForm}>clear form</button>
+      <button className={styles.button} onClick={ClearForm}>clear form</button>
     </form>
   );
 };

@@ -1,0 +1,16 @@
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+}
+
+.value {
+  min-width: 2rem;
+  text-align: center;
+}

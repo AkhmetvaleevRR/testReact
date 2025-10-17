@@ -1,6 +1,7 @@
 import { Layout } from "../layout/layout";
 import { RestaurantPage } from "../restaraunt-page/restaurant-page";
 import ScrollProgressBar from "../scrollProgressBar/scrollProgressBar";
+import "../../assets/styles/main.css";
 
 export const App = () => {
   return (
