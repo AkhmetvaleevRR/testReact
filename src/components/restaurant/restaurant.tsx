@@ -2,9 +2,12 @@ import type { restaurant } from "../../../types/restaurant";
 import { MenuList } from "../menuList/menuList.tsx";
 import { ReviewForm } from "../reviewForm/reviewForm.tsx";
 import { ReviewList } from "../reviewList/reviewList.tsx";
+import { useUser } from "../../contexts/UserContext";
 import styles from "./restaurant.module.css";
 
 export const RestaurantItem = ({ restaurant }: { restaurant: restaurant }) => {
+  const { isAuthenticated } = useUser();
+
   return (
     <div key={restaurant.id} className={styles.container}>
       <h2 className={styles.title}>{restaurant.name}</h2>
@@ -16,9 +19,11 @@ export const RestaurantItem = ({ restaurant }: { restaurant: restaurant }) => {
         <h3>Reviews</h3>
         <ReviewList reviews={restaurant.reviews} />
       </div>
-      <div className={styles.section}>
-        <ReviewForm />
-      </div>
+      {isAuthenticated && (
+        <div className={styles.section}>
+          <ReviewForm />
+        </div>
+      )}
     </div>
   );
 };

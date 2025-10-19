@@ -1,0 +1,29 @@
+.theme-light {
+  --bg-primary: #F8F4E9;
+  --bg-secondary: #FFFFFF;
+  --text-primary: #5A5243;
+  --text-secondary: #8E877B;
+  --border-color: #E5DFD2;
+  --button-bg: #6EC0BB;
+  --button-text: #FFFFFF;
+  --button-bg-hover: #5DA8A4;
+  --accent-color: #D9A566;
+}
+
+.theme-dark {
+  --bg-primary: #1A1A2E;
+  --bg-secondary: #25253D;
+  --text-primary: #E6E6E6;
+  --text-secondary: #8A8A8A;
+  --border-color: #383854;
+  --button-bg: #BB86FC;
+  --button-text: #1A1A2E;
+  --button-bg-hover: #CFA6FF;
+  --accent-color: #03DAC5;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
