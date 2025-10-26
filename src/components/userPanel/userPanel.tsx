@@ -8,16 +8,12 @@ const userPanel = () => {
     login("User");
   };
 
-  const handleLogout = () => {
-    logout();
-  };
-
   return (
     <div>
       {isAuthenticated ? (
         <div className={styles.userPanel}>
           <span>{user}</span>
-          <button onClick={handleLogout}>Logout</button>
+          <button onClick={logout}>Logout</button>
         </div>
       ) : (
         <button onClick={handleLogin}>Login</button>

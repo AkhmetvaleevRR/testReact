@@ -1,0 +1,7 @@
+.scrollContent {
+  height: 2000px;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  text-align: center;
+}
