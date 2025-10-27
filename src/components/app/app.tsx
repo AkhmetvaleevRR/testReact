@@ -2,15 +2,16 @@ import { Layout } from "../layout/layout";
 import { RestaurantPage } from "../restaraunt-page/restaurant-page";
 import ScrollProgressBar from "../scrollProgressBar/scrollProgressBar";
 import { ThemeProvider } from "../../contexts/ThemeContext";
-import { UserProvider } from "../../contexts/UserContext";
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 import "../../assets/styles/main.css";
 import "../../assets/styles/theme.css";
 import styles from "./app.module.css";
 
 export const App = () => {
   return (
-    <ThemeProvider>
-      <UserProvider>
+    <Provider store={store}>
+      <ThemeProvider>
         <Layout>
           <ScrollProgressBar />
           <RestaurantPage />
@@ -18,7 +19,7 @@ export const App = () => {
             Контент для прокрутки
           </div>
         </Layout>
-      </UserProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </Provider>
   );
 };
