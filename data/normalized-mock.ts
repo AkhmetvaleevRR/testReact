@@ -1,4 +1,30 @@
-export const normalizedRestaurants = [
+interface Restaurant {
+  id: string;
+  name: string;
+  menu: string[];
+  reviews: string[];
+}
+
+interface Dish {
+  id: string;
+  name: string;
+  price: number;
+  ingredients: string[];
+}
+
+interface Review {
+  id: string;
+  userId: string;
+  text: string;
+  rating: number;
+}
+
+interface User {
+  id: string;
+  name: string;
+}
+
+export const normalizedRestaurants: Restaurant[] = [
   {
     id: "a757a0e9-03c1-4a2a-b384-8ac21dbe2fb2",
     name: "Dishoom",
@@ -49,7 +75,7 @@ export const normalizedRestaurants = [
   },
 ];
 
-export const normalizedDishes = [
+export const normalizedDishes: Dish[] = [
   {
     id: "d75f762a-eadd-49be-8918-ed0daa8dd024",
     name: "Chicken tikka masala",
@@ -112,7 +138,7 @@ export const normalizedDishes = [
   },
 ];
 
-export const normalizedReviews = [
+export const normalizedReviews: Review[] = [
   {
     id: "5909796d-5030-4e36-adec-68b8f9ec2d96",
     userId: "a304959a-76c0-4b34-954a-b38dbf310360",
@@ -163,7 +189,7 @@ export const normalizedReviews = [
   },
 ];
 
-export const normalizedUsers = [
+export const normalizedUsers: User[] = [
   {
     id: "a304959a-76c0-4b34-954a-b38dbf310360",
     name: "Antony",
