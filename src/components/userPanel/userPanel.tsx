@@ -1,19 +1,26 @@
-import { useUser } from "../../contexts/UserContext";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout } from "../../store/entities/users/slice";
+import type { RootState } from "../../store/store";
 import styles from "./userPanel.module.css";
 
-const userPanel = () => {
-  const { user, isAuthenticated, login, logout } = useUser();
+const UserPanel = () => {
+  const dispatch = useDispatch();
+  const { currentUser, isAuthenticated } = useSelector((state: RootState) => state.users);
 
   const handleLogin = () => {
-    login("User");
+    dispatch(login("User"));
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
     <div>
       {isAuthenticated ? (
         <div className={styles.userPanel}>
-          <span>{user}</span>
-          <button onClick={logout}>Logout</button>
+          <span>{currentUser}</span>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
         <button onClick={handleLogin}>Login</button>
@@ -22,4 +29,4 @@ const userPanel = () => {
   );
 };
 
-export default userPanel;
+export default UserPanel;

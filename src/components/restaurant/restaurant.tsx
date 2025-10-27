@@ -1,29 +1,40 @@
 import type { restaurant } from "../../../types/restaurant";
-import { MenuList } from "../menuList/menuList.tsx";
+import { MenuListContainer } from "../menuList/menuList-container";
 import { ReviewForm } from "../reviewForm/reviewForm.tsx";
 import { ReviewList } from "../reviewList/reviewList.tsx";
-import { useUser } from "../../contexts/UserContext";
+import { CartContainer } from "../cart/cart-container";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store/store";
 import styles from "./restaurant.module.css";
 
 export const RestaurantItem = ({ restaurant }: { restaurant: restaurant }) => {
-  const { isAuthenticated } = useUser();
+  const isAuthenticated = useSelector((state: RootState) => state.users.isAuthenticated);
 
   return (
     <div key={restaurant.id} className={styles.container}>
       <h2 className={styles.title}>{restaurant.name}</h2>
-      <div className={styles.section}>
-        <h3>Menu</h3>
-        <MenuList menu={restaurant.menu} />
-      </div>
-      <div className={styles.section}>
-        <h3>Reviews</h3>
-        <ReviewList reviews={restaurant.reviews} />
-      </div>
-      {isAuthenticated && (
-        <div className={styles.section}>
-          <ReviewForm />
+      <div className={styles.mainContent}>
+        <div className={styles.leftContent}>
+          <div className={styles.section}>
+            <h3>Menu</h3>
+            <MenuListContainer menu={restaurant.menu} />
+          </div>
+          <div className={styles.section}>
+            <h3>Reviews</h3>
+            <ReviewList reviews={restaurant.reviews} />
+          </div>
+          {isAuthenticated && (
+            <div className={styles.section}>
+              <ReviewForm />
+            </div>
+          )}
         </div>
-      )}
+        {isAuthenticated && (
+          <div className={styles.rightContent}>
+            <CartContainer />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
