@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
-import { addItem, removeItem } from "../../store/entities/cart/slice";
+import { addItem, removeItem, selectCartItemAmountById } from "../../store/entities/cart/slice";
 import { DishCounter } from "./dishCounter";
 
 interface DishCounterContainerProps {
@@ -10,9 +10,7 @@ interface DishCounterContainerProps {
 
 export const DishCounterContainer = ({ max, dishId }: DishCounterContainerProps) => {
   const dispatch = useDispatch();
-  const count = useSelector((state: RootState) => 
-    state.cart.itemsIds.filter(id => id === dishId).length
-  );
+  const count = useSelector((state: RootState) => selectCartItemAmountById(state, dishId));
 
   const handleIncrement = () => {
     if (count < max) {

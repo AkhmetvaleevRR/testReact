@@ -4,14 +4,12 @@ interface CartProps {
   itemsIds: string[];
 }
 
-export const Cart = ({ itemsIds }: CartProps) => {
-  const uniqueIds = [...new Set(itemsIds)];
-  
+export const Cart = ({ itemsIds }: CartProps) => {  
   return (
     <div>
       <h3>Cart</h3>
       <ul>
-        {uniqueIds.map((id) => (
+        {itemsIds.map((id) => (
           <li key={id}>
             <CartItemContainer id={id} />
           </li>

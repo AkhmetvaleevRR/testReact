@@ -16,11 +16,11 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<string>) => {
-      state.currentUser = action.payload;
-      state.isAuthenticated = true;
-      localStorage.setItem('user', JSON.stringify(action.payload));
-    },
+    // login: (state, action: PayloadAction<string>) => {
+    //   state.currentUser = action.payload;
+    //   state.isAuthenticated = true;
+    //   localStorage.setItem('user', JSON.stringify(action.payload));
+    // },
     logout: (state) => {
       state.currentUser = null;
       state.isAuthenticated = false;
@@ -42,6 +42,6 @@ const usersSlice = createSlice({
   },
 });
 
-export const { login, logout, loadUserFromStorage } = usersSlice.actions;
+export const { logout, loadUserFromStorage } = usersSlice.actions;
 export const { selectUsersIds, selectUserById, selectCurrentUser, selectIsAuthenticated } = usersSlice.selectors;
 export default usersSlice.reducer;
