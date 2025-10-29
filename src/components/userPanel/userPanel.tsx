@@ -8,7 +8,7 @@ const UserPanel = () => {
   const { currentUser, isAuthenticated } = useSelector((state: RootState) => state.users);
 
   const handleLogin = () => {
-    dispatch(login("User"));
+    dispatch(login());
   };
 
   const handleLogout = () => {
