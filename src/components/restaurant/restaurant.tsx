@@ -4,12 +4,11 @@ import { ReviewForm } from "../reviewForm/reviewForm.tsx";
 import { ReviewList } from "../reviewList/reviewList.tsx";
 import { CartContainer } from "../cart/cart-container";
 import { useSelector } from "react-redux";
-import type { RootState } from "../../store/store";
 import { selectIsAuthenticated } from "../../store/entities/users/slice";
 import styles from "./restaurant.module.css";
 
 export const RestaurantItem = ({ restaurant }: { restaurant: restaurant }) => {
-  const isAuthenticated = useSelector((state: RootState) => selectIsAuthenticated(state));
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   return (
     <div key={restaurant.id} className={styles.container}>
