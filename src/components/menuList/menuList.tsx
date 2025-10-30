@@ -1,9 +1,7 @@
 import type { MenuItem } from "../../../types/restaurant";
-import { useUser } from "../../contexts/UserContext";
-import { DishCounter } from "../dishCounter/dishCounter";
+import { DishCounterContainer } from "../dishCounter/dishCounter-container";
 
-export function MenuList({ menu }: { menu: MenuItem[] }) {
-  const { isAuthenticated } = useUser();
+export function MenuList({ menu, isAuthenticated }: { menu: MenuItem[]; isAuthenticated: boolean }) {
 
   return (
     <ul>
@@ -11,7 +9,7 @@ export function MenuList({ menu }: { menu: MenuItem[] }) {
         menu.map((menuItem) => (
           <li key={menuItem.id}>
             {menuItem.name} {menuItem.price}$
-            {isAuthenticated && <DishCounter max={5} initialValue={0} />}
+            {isAuthenticated && <DishCounterContainer max={5} dishId={menuItem.id} />}
           </li>
         ))}
     </ul>

@@ -1,34 +1,19 @@
-import { useState } from "react";
 import { Counter } from "../counter/counter";
 
 interface DishCounterProps {
   max: number;
-  initialValue?: number;
+  count: number;
+  onIncrement: () => void;
+  onDecrement: () => void;
 }
 
-export const DishCounter = ({ max, initialValue = 0 }: DishCounterProps) => {
-  const [count, setCount] = useState(initialValue);
-
-  const handleIncrement = () => {
-    if (count < max) {
-      const newValue = count + 1;
-      setCount(newValue);
-    }
-  };
-
-  const handleDecrement = () => {
-    if (count > 0) {
-      const newValue = count - 1;
-      setCount(newValue);
-    }
-  };
-
+export const DishCounter = ({ max, count, onIncrement, onDecrement }: DishCounterProps) => {
   return (
     <Counter
       max={max}
       value={count}
-      onIncrement={handleIncrement}
-      onDecrement={handleDecrement}
+      onIncrement={onIncrement}
+      onDecrement={onDecrement}
     />
   );
 };
