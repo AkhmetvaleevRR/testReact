@@ -1,24 +1,27 @@
-import { Layout } from "../layout/layout";
-import { RestaurantPage } from "../restaraunt-page/restaurant-page";
-import ScrollProgressBar from "../scrollProgressBar/scrollProgressBar";
+import { RestaurantPage } from "../../pages/restaurant-page";
 import { ThemeProvider } from "../../contexts/ThemeContext";
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
 import "../../assets/styles/main.css";
 import "../../assets/styles/theme.css";
-import styles from "./app.module.css";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { HomePage } from "../../pages/home-page";
+import { RestaurantLayout } from "../../layouts/restaurant-layout";
 
 export const App = () => {
   return (
     <Provider store={store}>
       <ThemeProvider>
-        <Layout>
-          <ScrollProgressBar />
-          <RestaurantPage />
-          <div className={styles.scrollContent}>
-            Контент для прокрутки
-          </div>
-        </Layout>
+          <BrowserRouter>     
+            <Routes>
+              <Route path="/" element={<HomePage />}/>
+              <Route path='/restaurants' element={<RestaurantLayout />}>
+                <Route path=':restaurantId/:category?' element={<RestaurantPage />} />
+              </Route>
+              <Route index element={<HomePage />} />
+              <Route path="*" element={<div>Not Found</div>} />
+            </Routes>     
+          </BrowserRouter>
       </ThemeProvider>
     </Provider>
   );
