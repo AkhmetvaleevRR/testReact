@@ -9,7 +9,9 @@ import { HomePage } from "../../pages/home-page";
 import { RestaurantLayout } from "../../layouts/restaurant-layout";
 import { RestaurantsPage } from "../../pages/restaurants-page";
 import { RestaurantReviewsPage } from "../../pages/reviews-page";
-import { Layout } from "../layout/layout";
+import { MenuPage } from "../../pages/menu-page";
+import { DishPage } from "../../pages/dish-page";
+import { AddReviewPage } from "../../pages/add-review-page";
 
 export const App = () => {
   return (
@@ -21,10 +23,13 @@ export const App = () => {
                 <Route index element={<HomePage />} />
                 <Route path='/restaurants' element={<RestaurantsPage />}>
                   <Route path=':restaurantId' element={<RestaurantPage />}>
-                    <Route index element={<Navigate to='reviews' />} />
+                    <Route index element={<Navigate to='menu' />} />
+                    <Route path='menu' element={<MenuPage />} />
                     <Route path='reviews' element={<RestaurantReviewsPage />} />
                   </Route>
                 </Route>
+                <Route path='/dish/:dishId' element={<DishPage />} />
+                <Route path='/add-review/:restaurantId' element={<AddReviewPage />} />
                 </Route>
             </Routes>     
           </BrowserRouter>

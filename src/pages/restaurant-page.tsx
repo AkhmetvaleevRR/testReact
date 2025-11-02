@@ -1,7 +1,7 @@
-import { useParams } from "react-router";
+import { useParams, Outlet } from "react-router";
 import { useSelector } from "react-redux";
 import { selectRestaurantById } from "../store/entities/restaurants/slice";
-import { RestaurantContainer } from "../components/restaurant/restaurant-container";
+import { TabLink } from "../components/tabLink/tab-link";
 import type { RootState } from "../store/store";
 import styles from "./restaurant-page.module.css";
 
@@ -17,7 +17,12 @@ export const RestaurantPage = () => {
 
   return (
     <div className={styles.container}>
-      <RestaurantContainer id={restaurantId!} />
+      <h1>{restaurant.name}</h1>
+      <nav>
+        <TabLink to={`/restaurants/${restaurantId}/menu`}>Menu</TabLink>
+        <TabLink to={`/restaurants/${restaurantId}/reviews`}>Reviews</TabLink>
+      </nav>
+      <Outlet />
     </div>
   );
 };
