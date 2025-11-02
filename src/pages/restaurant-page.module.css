@@ -1,0 +1,10 @@
+.container {
+  padding: 1rem;
+}
+
+.notFound {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}

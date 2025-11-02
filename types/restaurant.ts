@@ -15,6 +15,6 @@ export interface Review {
 export interface restaurant {
   id: string;
   name: string;
-  menu: MenuItem[];
-  reviews: Review[];
+  menu: string[];
+  reviews: string[];
 }
