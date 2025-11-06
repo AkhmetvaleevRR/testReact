@@ -36,11 +36,12 @@ const usersSlice = createSlice({
   selectors: {
     selectUsersIds: (state) => state.ids,
     selectUserById: (state, id: string) => state.entities[id],
+    selectUsersEntities: (state) => state.entities,
     selectCurrentUser: (state) => state.currentUser,
     selectIsAuthenticated: (state) => state.isAuthenticated,
   },
 });
 
 export const { login, logout, loadUserFromStorage } = usersSlice.actions;
-export const { selectUsersIds, selectUserById, selectCurrentUser, selectIsAuthenticated } = usersSlice.selectors;
+export const { selectUsersIds, selectUserById, selectUsersEntities, selectCurrentUser, selectIsAuthenticated } = usersSlice.selectors;
 export default usersSlice.reducer;

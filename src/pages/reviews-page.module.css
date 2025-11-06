@@ -1,0 +1,18 @@
+.addReviewButton {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--text-primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.addReviewButton:hover {
+  background-color: var(--text-primary);
+  transform: translateY(-2px);
+}

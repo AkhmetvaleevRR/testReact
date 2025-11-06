@@ -11,3 +11,8 @@
   color: var(--button-text);
   cursor: default;
 }
+
+.active {
+  background: var(--button-bg);
+  color: var(--button-text);
+}

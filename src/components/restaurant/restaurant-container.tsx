@@ -5,7 +5,7 @@ import { RestaurantItem } from "./restaurant";
 
 export const RestaurantContainer = ({ id }: { id: string }) => {
   const restaurant = useSelector((state: RootState) => selectRestaurantById(state, id));
-
+  
   if (!restaurant) {
     return null;
   }

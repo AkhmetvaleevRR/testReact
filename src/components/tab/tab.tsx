@@ -1,16 +1,21 @@
-import type { MouseEventHandler } from "react";
 import styles from "./tab.module.css";
+import { Link } from "react-router";
 
 interface Props {
   name: string;
   isActive: boolean;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  id: string;
+  onClick?: () => void;
 }
 
-export const Tab = ({ name, isActive, onClick }: Props) => {
+export const Tab = ({ name, isActive, id, onClick }: Props) => {
   return (
-    <button className={styles.tab} disabled={isActive} onClick={onClick}>
+    <Link 
+      className={`${styles.tab} ${isActive ? styles.active : ''}`} 
+      to={`/restaurants/${id}`}
+      onClick={onClick}
+    >
       {name}
-    </button>
+    </Link>
   );
 };

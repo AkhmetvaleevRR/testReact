@@ -40,4 +40,14 @@ export const selectCartItemsIds = createSelector(
   }
 );
 
+export const selectCartTotal = createSelector(
+  [(state: any) => state.cart.items, (state: any) => state.dishes.entities],
+  (cartItems, dishesEntities) => {
+    return Object.entries(cartItems).reduce((total, [dishId, quantity]) => {
+      const dish = dishesEntities[dishId];
+      return total + (dish ? dish.price * (quantity as number) : 0);
+    }, 0);
+  }
+);
+
 export default cartSlice.reducer;

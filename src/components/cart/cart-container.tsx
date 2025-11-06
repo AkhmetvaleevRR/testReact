@@ -1,14 +1,15 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
-import { selectCartItemsIds } from "../../store/entities/cart/slice";
+import { selectCartItemsIds, selectCartTotal } from "../../store/entities/cart/slice";
 import { Cart } from "./cart";
 
 export const CartContainer = () => {
   const itemsIds = useSelector((state: RootState) => selectCartItemsIds(state));
+  const total = useSelector(selectCartTotal);
 
   if (!itemsIds.length) {
     return null;
   }
 
-  return <Cart itemsIds={itemsIds} />;
+  return <Cart itemsIds={itemsIds} total={total} />;
 };

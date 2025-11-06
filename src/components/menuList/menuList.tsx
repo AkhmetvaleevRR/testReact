@@ -1,17 +1,13 @@
-import type { MenuItem } from "../../../types/restaurant";
-import { DishCounterContainer } from "../dishCounter/dishCounter-container";
+import { MenuItemContainer } from "../menuItem/menu-item-container";
 
-export function MenuList({ menu, isAuthenticated }: { menu: MenuItem[]; isAuthenticated: boolean }) {
-
+export function MenuList({ menuIds, isAuthenticated }: { menuIds: string[]; isAuthenticated: boolean }) {
   return (
     <ul>
-      {menu.length &&
-        menu.map((menuItem) => (
-          <li key={menuItem.id}>
-            {menuItem.name} {menuItem.price}$
-            {isAuthenticated && <DishCounterContainer max={5} dishId={menuItem.id} />}
-          </li>
-        ))}
+      {menuIds.map((dishId) => (
+        <li key={dishId}>
+          <MenuItemContainer dishId={dishId} isAuthenticated={isAuthenticated} />
+        </li>
+      ))}
     </ul>
   );
 }

@@ -1,0 +1,16 @@
+.root {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: var(--text-color);
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.root:hover {
+  color: var(--primary-color);
+}
+
+.isActive {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}

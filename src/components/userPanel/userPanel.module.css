@@ -1,3 +1,19 @@
 .userPanel span{
   margin-right: 10px;
 }
+.loginIcon {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoutIcon {
+  background-color: transparent;
+  border: none;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
