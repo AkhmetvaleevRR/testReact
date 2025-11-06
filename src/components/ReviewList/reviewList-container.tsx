@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
+import { selectReviewsEntities } from "../../store/entities/reviews/slice";
 import { ReviewList } from "./reviewList";
-import type { RootState } from "../../store/store";
 
 export const ReviewListContainer = ({ reviews }: { reviews: string[] }) => {
-  const reviewsEntities = useSelector((state: RootState) => state.reviews.entities);
+  const reviewsEntities = useSelector(selectReviewsEntities);
   
   const reviewItems = useMemo(() => 
     reviews.map(reviewId => reviewsEntities[reviewId]).filter(Boolean),

@@ -1,15 +1,11 @@
-import { DishCounterContainer } from "../dishCounter/dishCounter-container";
-import { Link } from "react-router";
+import { MenuItemContainer } from "../menuItem/menu-item-container";
 
-export function MenuList({ menu, isAuthenticated }: { menu: any[]; isAuthenticated: boolean }) {
+export function MenuList({ menuIds, isAuthenticated }: { menuIds: string[]; isAuthenticated: boolean }) {
   return (
     <ul>
-      {menu.map((menuItem) => (
-        <li key={menuItem.id}>
-          <Link to={`/dish/${menuItem.id}`}>
-            {menuItem.name} {menuItem.price}$
-          </Link>
-          {isAuthenticated && <DishCounterContainer max={5} dishId={menuItem.id} />}
+      {menuIds.map((dishId) => (
+        <li key={dishId}>
+          <MenuItemContainer dishId={dishId} isAuthenticated={isAuthenticated} />
         </li>
       ))}
     </ul>

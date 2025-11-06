@@ -5,7 +5,7 @@ import { Cart } from "./cart";
 
 export const CartContainer = () => {
   const itemsIds = useSelector((state: RootState) => selectCartItemsIds(state));
-  const total = useSelector((state: RootState) => selectCartTotal(state));
+  const total = useSelector(selectCartTotal);
 
   if (!itemsIds.length) {
     return null;

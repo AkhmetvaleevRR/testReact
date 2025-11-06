@@ -1,7 +1,7 @@
 import type { restaurant } from "../../../types/restaurant";
 import { MenuListContainer } from "../menuList/menuList-container";
-import { ReviewForm } from "../reviewForm/reviewForm.tsx";
-import { ReviewListContainer } from "../reviewList/reviewList-container";
+import { ReviewForm } from "../review-form/review-form";
+import { ReviewListContainer } from "../review-list/review-list-container";
 
 import { useSelector } from "react-redux";
 import { selectIsAuthenticated } from "../../store/entities/users/slice";

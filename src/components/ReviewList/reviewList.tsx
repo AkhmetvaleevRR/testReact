@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import type { RootState } from "../../store/store";
+import { selectUsersEntities } from "../../store/entities/users/slice";
 
 export function ReviewList({ reviews }: { reviews: any[] }) {
-  const users = useSelector((state: RootState) => state.users.entities);
+  const users = useSelector(selectUsersEntities);
   
   const reviewsWithUsers = useMemo(() => 
     reviews.map(review => ({
