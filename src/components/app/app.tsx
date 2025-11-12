@@ -17,22 +17,22 @@ export const App = () => {
   return (
     <Provider store={store}>
       <ThemeProvider>
-          <BrowserRouter>     
-            <Routes>
-              <Route element={<RestaurantLayout />}>
-                <Route index element={<HomePage />} />
-                <Route path='/restaurants' element={<RestaurantsPage />}>
-                  <Route path=':restaurantId' element={<RestaurantPage />}>
-                    <Route index element={<Navigate to='menu' />} />
-                    <Route path='menu' element={<MenuPage />} />
-                    <Route path='reviews' element={<RestaurantReviewsPage />} />
-                  </Route>
+        <BrowserRouter>     
+          <Routes>
+            <Route element={<RestaurantLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path='/restaurants' element={<RestaurantsPage />}>
+                <Route path=':restaurantId' element={<RestaurantPage />}>
+                  <Route index element={<Navigate to='menu' />} />
+                  <Route path='menu' element={<MenuPage />} />
+                  <Route path='reviews' element={<RestaurantReviewsPage />} />
                 </Route>
-                <Route path='/dish/:dishId' element={<DishPage />} />
-                <Route path='/add-review/:restaurantId' element={<AddReviewPage />} />
-                </Route>
-            </Routes>     
-          </BrowserRouter>
+              </Route>
+              <Route path='/dish/:dishId' element={<DishPage />} />
+              <Route path='/add-review/:restaurantId' element={<AddReviewPage />} />
+              </Route>
+          </Routes>     
+        </BrowserRouter>
       </ThemeProvider>
     </Provider>
   );
