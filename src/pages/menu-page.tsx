@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectRestaurantById } from "../store/entities/restaurants/slice";
 import { selectDishesStatus, fetchDishes } from "../store/entities/dishes/slice";
 import { MenuListContainer } from "../components/menuList/menuList-container";
+import { Loader } from "../components/loader/loader";
 import type { RootState, AppDispatch } from "../store/store";
 
 export const MenuPage = () => {
@@ -22,7 +23,7 @@ export const MenuPage = () => {
     }
   }, [dispatch, dishesStatus]);
 
-  if (dishesStatus === "loading") return "Loading...";
+  if (dishesStatus === "loading") return <Loader />;
   if (dishesStatus === "failed") return "Error loading menu";
 
   if (!restaurantId || !restaurant) {

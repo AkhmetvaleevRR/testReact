@@ -5,6 +5,7 @@ import { selectIsAuthenticated, selectUsersStatus, fetchUsers } from "../store/e
 import { selectReviewsStatus, fetchReviews } from "../store/entities/reviews/slice";
 import { useSelector, useDispatch } from "react-redux";
 import { ReviewListContainer } from "../components/reviewList/reviewList-container";
+import { Loader } from "../components/loader/loader";
 import type { RootState, AppDispatch } from "../store/store";
 import styles from "./reviews-page.module.css";
 
@@ -29,7 +30,7 @@ export const RestaurantReviewsPage = () => {
     }
   }, [dispatch, reviewsStatus, usersStatus]);
 
-  if (reviewsStatus === "loading" || usersStatus === "loading") return "Loading...";
+  if (reviewsStatus === "loading" || usersStatus === "loading") return <Loader />;
   if (reviewsStatus === "failed" || usersStatus === "failed") return "Error loading reviews";
 
   const { reviews } = restaurant || {};

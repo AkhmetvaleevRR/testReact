@@ -8,6 +8,7 @@ import {
 } from "../store/entities/restaurants/slice";
 import { Outlet } from "react-router";
 import { TabContainer } from "../components/tab/tab-container";
+import { Loader } from "../components/loader/loader";
 import type { AppDispatch } from "../store/store";
 
 export const RestaurantsPage = () => {
@@ -19,7 +20,7 @@ export const RestaurantsPage = () => {
     dispatch(fetchRestaurants());
   }, [dispatch]);
 
-  if (status === "loading") return "Loading...";
+  if (status === "loading") return <Loader />;
   if (status === "failed") return "Error loading restaurants";
 
   return (
