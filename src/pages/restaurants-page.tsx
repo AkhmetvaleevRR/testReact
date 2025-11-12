@@ -1,27 +1,19 @@
-import { useEffect } from "react";
 import { Tabs } from "../components/tabs/tabs";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   selectRestaurantsByIds,
-  selectRestaurantsStatus,
   fetchRestaurants,
 } from "../store/entities/restaurants/slice";
 import { Outlet } from "react-router";
 import { TabContainer } from "../components/tab/tab-container";
 import { Loader } from "../components/loader/loader";
-import type { AppDispatch } from "../store/store";
+import { useRequest } from "../store/hooks/use-requests";
 
 export const RestaurantsPage = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const restaurantsIds = useSelector(selectRestaurantsByIds);
-  const status = useSelector(selectRestaurantsStatus);
+  const { isLoading } = useRequest(fetchRestaurants);
 
-  useEffect(() => {
-    dispatch(fetchRestaurants());
-  }, [dispatch]);
-
-  if (status === "loading") return <Loader />;
-  if (status === "failed") return "Error loading restaurants";
+  if (isLoading) return <Loader />;
 
   return (
     <div>

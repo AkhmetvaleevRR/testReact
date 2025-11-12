@@ -4,6 +4,7 @@ import reviewsReducer from './entities/reviews/slice';
 import dishesReducer from './entities/dishes/slice';
 import usersReducer from './entities/users/slice';
 import cartReducer from './entities/cart/slice';
+import requestReducer from './entities/request/slice';
 const loggedMiddleWare = () => (next: any) => (action: any) => next(action);
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     dishes: dishesReducer,
     users: usersReducer,
     cart: cartReducer,
+    request: requestReducer,
   },
   middleware: (getDefaultMiddlewares) => getDefaultMiddlewares().concat(loggedMiddleWare)
 });

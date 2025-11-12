@@ -1,37 +1,26 @@
-import { useEffect } from "react";
 import { useParams, Link } from "react-router";
 import { selectRestaurantById } from "../store/entities/restaurants/slice";
-import { selectIsAuthenticated, selectUsersStatus, fetchUsers } from "../store/entities/users/slice";
-import { selectReviewsStatus, fetchReviews } from "../store/entities/reviews/slice";
-import { useSelector, useDispatch } from "react-redux";
+import { selectIsAuthenticated, fetchUsers } from "../store/entities/users/slice";
+import { fetchReviews } from "../store/entities/reviews/slice";
+import { useSelector } from "react-redux";
 import { ReviewListContainer } from "../components/reviewList/reviewList-container";
 import { Loader } from "../components/loader/loader";
-import type { RootState, AppDispatch } from "../store/store";
+import { useRequest } from "../store/hooks/use-requests";
+import type { RootState } from "../store/store";
 import styles from "./reviews-page.module.css";
 
 export const RestaurantReviewsPage = () => {
   const { restaurantId } = useParams();
-  const dispatch = useDispatch<AppDispatch>();
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const restaurant = useSelector((state: RootState) =>
     restaurantId ? selectRestaurantById(state, restaurantId) : null
   );
 
-  const reviewsStatus = useSelector(selectReviewsStatus);
-  const usersStatus = useSelector(selectUsersStatus);
+  const { isLoading: reviewsLoading } = useRequest(fetchReviews);
+  const { isLoading: usersLoading } = useRequest(fetchUsers);
 
-  useEffect(() => {
-    if (reviewsStatus === 'idle') {
-      dispatch(fetchReviews());
-    }
-    if (usersStatus === 'idle') {
-      dispatch(fetchUsers());
-    }
-  }, [dispatch, reviewsStatus, usersStatus]);
-
-  if (reviewsStatus === "loading" || usersStatus === "loading") return <Loader />;
-  if (reviewsStatus === "failed" || usersStatus === "failed") return "Error loading reviews";
+  if (reviewsLoading || usersLoading) return <Loader />;
 
   const { reviews } = restaurant || {};
 

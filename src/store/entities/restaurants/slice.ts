@@ -15,6 +15,14 @@ export const fetchRestaurants = createAsyncThunk(
   }
 );
 
+export const fetchRestaurantById = createAsyncThunk(
+  'restaurants/fetchRestaurantById',
+  async (id: string): Promise<Restaurant> => {
+    const response = await fetch(`http://localhost:3001/api/restaurants/${id}`);
+    return response.json();
+  }
+);
+
 const entityAdapter = createEntityAdapter<Restaurant>();
 
 const restaurantsSlice = createSlice({
@@ -44,6 +52,9 @@ const restaurantsSlice = createSlice({
       .addCase(fetchRestaurants.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Failed to fetch restaurants';
+      })
+      .addCase(fetchRestaurantById.fulfilled, (state, action) => {
+        entityAdapter.upsertOne(state, action.payload);
       });
   },
   selectors: {
