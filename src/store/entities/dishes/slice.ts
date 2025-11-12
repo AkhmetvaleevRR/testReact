@@ -1,23 +1,28 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+
+interface Dish {
+  id: string;
+  name: string;
+  price: number;
+  ingredients: string[];
+}
 
 export const fetchDishes = createAsyncThunk(
   'dishes/fetchDishes',
-  async () => {
+  async (): Promise<Dish[]> => {
     const response = await fetch('http://localhost:3001/api/dishes');
     return response.json();
   }
 );
 
-const initialState = {
-  ids: [] as string[],
-  entities: {} as Record<string, any>,
-  status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
-  error: null as string | null,
-};
+const entityAdapter = createEntityAdapter<Dish>();
 
 const dishesSlice = createSlice({
   name: 'dishes',
-  initialState,
+  initialState: entityAdapter.getInitialState({
+    status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
+    error: null as string | null,
+  }),
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -26,11 +31,7 @@ const dishesSlice = createSlice({
       })
       .addCase(fetchDishes.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.ids = action.payload.map((dish: any) => dish.id);
-        state.entities = action.payload.reduce((acc: Record<string, any>, dish: any) => {
-          acc[dish.id] = dish;
-          return acc;
-        }, {});
+        entityAdapter.setAll(state, action.payload);
       })
       .addCase(fetchDishes.rejected, (state, action) => {
         state.status = 'failed';
@@ -38,12 +39,14 @@ const dishesSlice = createSlice({
       });
   },
   selectors: {
-    selectDishesIds: (state) => state.ids,
-    selectDishById: (state, id: string) => state.entities[id],
-    selectDishesEntities: (state) => state.entities,
     selectDishesStatus: (state) => state.status,
   },
 });
 
-export const { selectDishesIds, selectDishById, selectDishesEntities, selectDishesStatus } = dishesSlice.selectors;
+const selectors = entityAdapter.getSelectors((state: any) => state.dishes);
+
+export const { selectDishesStatus } = dishesSlice.selectors;
+export const selectDishesIds = selectors.selectIds;
+export const selectDishById = selectors.selectById;
+export const selectDishesEntities = selectors.selectEntities;
 export default dishesSlice.reducer;

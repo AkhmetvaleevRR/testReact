@@ -1,29 +1,33 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+
+interface Review {
+  id: string;
+  userId: string;
+  restaurantId: string;
+  text: string;
+  rating: number;
+}
 
 export const fetchReviews = createAsyncThunk(
   'reviews/fetchReviews',
-  async () => {
+  async (): Promise<Review[]> => {
     const response = await fetch('http://localhost:3001/api/reviews');
     return response.json();
   }
 );
 
-const initialState = {
-  ids: [] as string[],
-  entities: {} as Record<string, any>,
-  status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
-  error: null as string | null,
-};
+const entityAdapter = createEntityAdapter<Review>();
 
 const reviewsSlice = createSlice({
   name: 'reviews',
-  initialState,
+  initialState: entityAdapter.getInitialState({
+    status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
+    error: null as string | null,
+  }),
   reducers: {
-    addReview: (state, action: PayloadAction<any>) => {
-      const review = action.payload;
-      state.ids.push(review.id);
-      state.entities[review.id] = review;
+    addReview: (state, action: PayloadAction<Review>) => {
+      entityAdapter.addOne(state, action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -33,11 +37,7 @@ const reviewsSlice = createSlice({
       })
       .addCase(fetchReviews.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.ids = action.payload.map((review: any) => review.id);
-        state.entities = action.payload.reduce((acc: Record<string, any>, review: any) => {
-          acc[review.id] = review;
-          return acc;
-        }, {});
+        entityAdapter.setAll(state, action.payload);
       })
       .addCase(fetchReviews.rejected, (state, action) => {
         state.status = 'failed';
@@ -45,13 +45,15 @@ const reviewsSlice = createSlice({
       });
   },
   selectors: {
-    selectReviewsIds: (state) => state.ids,
-    selectReviewById: (state, id: string) => state.entities[id],
-    selectReviewsEntities: (state) => state.entities,
     selectReviewsStatus: (state) => state.status,
   },
 });
 
+const selectors = entityAdapter.getSelectors((state: any) => state.reviews);
+
 export const { addReview } = reviewsSlice.actions;
-export const { selectReviewsIds, selectReviewById, selectReviewsEntities, selectReviewsStatus } = reviewsSlice.selectors;
+export const { selectReviewsStatus } = reviewsSlice.selectors;
+export const selectReviewsIds = selectors.selectIds;
+export const selectReviewById = selectors.selectById;
+export const selectReviewsEntities = selectors.selectEntities;
 export default reviewsSlice.reducer;
