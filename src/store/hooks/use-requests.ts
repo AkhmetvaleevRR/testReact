@@ -4,7 +4,7 @@ import { selectStatus, selectIsLoading } from "../entities/request/slice";
 import type { AppDispatch, RootState } from "../store";
 import type { AsyncThunk } from "@reduxjs/toolkit";
 
-export const useRequest = (thunk: AsyncThunk<any, any, any>, params?: any) => {
+export const useRequest = (thunk: AsyncThunk<any, any, any>, params?: any, shouldFetch: boolean = true) => {
   const [requestId, setRequestId] = useState<string | null>(null);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -12,13 +12,15 @@ export const useRequest = (thunk: AsyncThunk<any, any, any>, params?: any) => {
   const isLoading = useSelector((state: RootState) => requestId ? selectIsLoading(state, requestId) : false);
 
   useEffect(() => {
+    if (!shouldFetch) return;
+    
     const requestPromise = dispatch(thunk(params));
     setRequestId(requestPromise.requestId);
 
     return () => {
       requestPromise.abort();
     };
-  }, [dispatch, params, thunk]);
+  }, [dispatch, params, thunk, shouldFetch]);
 
   return { status, isLoading };
 };

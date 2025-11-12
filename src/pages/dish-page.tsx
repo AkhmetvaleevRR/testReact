@@ -1,25 +1,21 @@
-import { useEffect } from "react";
 import { useParams, Link } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
-import { selectDishById, selectDishesStatus, fetchDishes } from "../store/entities/dishes/slice";
+import { useSelector } from "react-redux";
+import { selectDishById, fetchDishById } from "../store/entities/dishes/slice";
 import { DishCounterContainer } from "../components/dishCounter/dishCounter-container";
-import type { RootState, AppDispatch } from "../store/store";
+import { Loader } from "../components/loader/loader";
+import { useRequest } from "../store/hooks/use-requests";
+import type { RootState } from "../store/store";
 
 export const DishPage = () => {
   const { dishId } = useParams();
-  const dispatch = useDispatch<AppDispatch>();
   
   const dish = useSelector((state: RootState) =>
     dishId ? selectDishById(state, dishId) : null
   );
-  const status = useSelector(selectDishesStatus);
+  
+  const { isLoading } = useRequest(fetchDishById, dishId, !dish);
 
-  useEffect(() => {
-    dispatch(fetchDishes());
-  }, [dispatch]);
-
-  if (status === "loading") return "Loading...";
-  if (status === "failed") return "Error loading dish";
+  if (isLoading) return <Loader />;
 
   if (!dishId || !dish) {
     return <div>Dish not found</div>;
