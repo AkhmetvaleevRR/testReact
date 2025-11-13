@@ -1,8 +1,11 @@
 import { useParams, Link } from "react-router";
 import { selectRestaurantById } from "../store/entities/restaurants/slice";
-import { selectIsAuthenticated } from "../store/entities/users/slice";
+import { selectIsAuthenticated, fetchUsers } from "../store/entities/users/slice";
+import { fetchReviewsByRestaurantId } from "../store/entities/reviews/slice";
 import { useSelector } from "react-redux";
 import { ReviewListContainer } from "../components/reviewList/reviewList-container";
+import { Loader } from "../components/loader/loader";
+import { useRequest } from "../store/hooks/use-requests";
 import type { RootState } from "../store/store";
 import styles from "./reviews-page.module.css";
 
@@ -13,6 +16,11 @@ export const RestaurantReviewsPage = () => {
   const restaurant = useSelector((state: RootState) =>
     restaurantId ? selectRestaurantById(state, restaurantId) : null
   );
+
+  const { isLoading: reviewsLoading } = useRequest(fetchReviewsByRestaurantId, restaurantId);
+  const { isLoading: usersLoading } = useRequest(fetchUsers);
+
+  if (reviewsLoading || usersLoading) return <Loader />;
 
   const { reviews } = restaurant || {};
 

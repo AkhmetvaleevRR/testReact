@@ -1,19 +1,34 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { normalizedUsers } from '../../../../data/normalized-mock';
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 
-const initialState = {
-  ids: normalizedUsers.map(({ id }) => id),
-  entities: normalizedUsers.reduce((acc: Record<string, any>, item) => {
-    acc[item.id] = item;
-    return acc;
-  }, {}),
-  currentUser: null as string | null,
-  isAuthenticated: false,
-};
+interface User {
+  id: string;
+  name: string;
+}
+
+export const fetchUsers = createAsyncThunk(
+  'users/fetchUsers',
+  async (): Promise<User[]> => {
+    const response = await fetch('http://localhost:3001/api/users');
+    return response.json();
+  },
+  {
+    condition: (_, { getState }) => {
+      const state = getState() as any;
+      return state.users.ids.length === 0;
+    }
+  }
+);
+
+const entityAdapter = createEntityAdapter<User>();
 
 const usersSlice = createSlice({
   name: 'users',
-  initialState,
+  initialState: entityAdapter.getInitialState({
+    currentUser: null as string | null,
+    isAuthenticated: false,
+    status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
+    error: null as string | null,
+  }),
   reducers: {
     login: (state) => {
       state.currentUser = 'User';
@@ -33,15 +48,32 @@ const usersSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        entityAdapter.setAll(state, action.payload);
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || 'Failed to fetch users';
+      });
+  },
   selectors: {
-    selectUsersIds: (state) => state.ids,
-    selectUserById: (state, id: string) => state.entities[id],
-    selectUsersEntities: (state) => state.entities,
     selectCurrentUser: (state) => state.currentUser,
     selectIsAuthenticated: (state) => state.isAuthenticated,
+    selectUsersStatus: (state) => state.status,
   },
 });
 
+const selectors = entityAdapter.getSelectors((state: any) => state.users);
+
 export const { login, logout, loadUserFromStorage } = usersSlice.actions;
-export const { selectUsersIds, selectUserById, selectUsersEntities, selectCurrentUser, selectIsAuthenticated } = usersSlice.selectors;
+export const { selectCurrentUser, selectIsAuthenticated, selectUsersStatus } = usersSlice.selectors;
+export const selectUsersIds = selectors.selectIds;
+export const selectUserById = selectors.selectById;
+export const selectUsersEntities = selectors.selectEntities;
 export default usersSlice.reducer;

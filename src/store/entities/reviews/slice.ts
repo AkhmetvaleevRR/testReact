@@ -1,32 +1,70 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { normalizedReviews } from '../../../../data/normalized-mock';
 
-const initialState = {
-  ids: normalizedReviews.map(({ id }) => id),
-  entities: normalizedReviews.reduce((acc: Record<string, any>, item) => {
-    acc[item.id] = item;
-    return acc;
-  }, {}),
-};
+interface Review {
+  id: string;
+  userId: string;
+  restaurantId: string;
+  text: string;
+  rating: number;
+}
+
+export const fetchReviews = createAsyncThunk(
+  'reviews/fetchReviews',
+  async (): Promise<Review[]> => {
+    const response = await fetch('http://localhost:3001/api/reviews');
+    return response.json();
+  }
+);
+
+export const fetchReviewsByRestaurantId = createAsyncThunk(
+  'reviews/fetchReviewsByRestaurantId',
+  async (restaurantId: string): Promise<Review[]> => {
+    const response = await fetch(`http://localhost:3001/api/reviews?restaurantId=${restaurantId}`);
+    return response.json();
+  }
+);
+
+const entityAdapter = createEntityAdapter<Review>();
 
 const reviewsSlice = createSlice({
   name: 'reviews',
-  initialState,
+  initialState: entityAdapter.getInitialState({
+    status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
+    error: null as string | null,
+  }),
   reducers: {
-    addReview: (state, action: PayloadAction<any>) => {
-      const review = action.payload;
-      state.ids.push(review.id);
-      state.entities[review.id] = review;
+    addReview: (state, action: PayloadAction<Review>) => {
+      entityAdapter.addOne(state, action.payload);
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchReviews.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchReviews.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        entityAdapter.setAll(state, action.payload);
+      })
+      .addCase(fetchReviews.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || 'Failed to fetch reviews';
+      })
+      .addCase(fetchReviewsByRestaurantId.fulfilled, (state, action) => {
+        entityAdapter.upsertMany(state, action.payload);
+      });
+  },
   selectors: {
-    selectReviewsIds: (state) => state.ids,
-    selectReviewById: (state, id: string) => state.entities[id],
-    selectReviewsEntities: (state) => state.entities,
+    selectReviewsStatus: (state) => state.status,
   },
 });
 
+const selectors = entityAdapter.getSelectors((state: any) => state.reviews);
+
 export const { addReview } = reviewsSlice.actions;
-export const { selectReviewsIds, selectReviewById, selectReviewsEntities } = reviewsSlice.selectors;
+export const { selectReviewsStatus } = reviewsSlice.selectors;
+export const selectReviewsIds = selectors.selectIds;
+export const selectReviewById = selectors.selectById;
+export const selectReviewsEntities = selectors.selectEntities;
 export default reviewsSlice.reducer;

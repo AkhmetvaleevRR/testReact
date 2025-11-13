@@ -1,24 +1,69 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { normalizedDishes } from '../../../../data/normalized-mock';
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 
-const initialState = {
-  ids: normalizedDishes.map(({ id }) => id),
-  entities: normalizedDishes.reduce((acc: Record<string, any>, item) => {
-    acc[item.id] = item;
-    return acc;
-  }, {}),
-};
+interface Dish {
+  id: string;
+  name: string;
+  price: number;
+  ingredients: string[];
+}
+
+export const fetchDishes = createAsyncThunk(
+  'dishes/fetchDishes',
+  async (): Promise<Dish[]> => {
+    const response = await fetch('http://localhost:3001/api/dishes');
+    return response.json();
+  }
+);
+
+export const fetchDishById = createAsyncThunk(
+  'dishes/fetchDishById',
+  async (dishId: string): Promise<Dish> => {
+    const response = await fetch(`http://localhost:3001/api/dish/${dishId}`);
+    return response.json();
+  },
+  {
+    condition: (dishId, { getState }) => {
+      const state = getState() as any;
+      return !state.dishes.entities[dishId];
+    }
+  }
+);
+
+const entityAdapter = createEntityAdapter<Dish>();
 
 const dishesSlice = createSlice({
   name: 'dishes',
-  initialState,
+  initialState: entityAdapter.getInitialState({
+    status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
+    error: null as string | null,
+  }),
   reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchDishes.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchDishes.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        entityAdapter.setAll(state, action.payload);
+      })
+      .addCase(fetchDishes.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || 'Failed to fetch dishes';
+      })
+      .addCase(fetchDishById.fulfilled, (state, action) => {
+        entityAdapter.upsertOne(state, action.payload);
+      });
+  },
   selectors: {
-    selectDishesIds: (state) => state.ids,
-    selectDishById: (state, id: string) => state.entities[id],
-    selectDishesEntities: (state) => state.entities,
+    selectDishesStatus: (state) => state.status,
   },
 });
 
-export const { selectDishesIds, selectDishById, selectDishesEntities } = dishesSlice.selectors;
+const selectors = entityAdapter.getSelectors((state: any) => state.dishes);
+
+export const { selectDishesStatus } = dishesSlice.selectors;
+export const selectDishesIds = selectors.selectIds;
+export const selectDishById = selectors.selectById;
+export const selectDishesEntities = selectors.selectEntities;
 export default dishesSlice.reducer;

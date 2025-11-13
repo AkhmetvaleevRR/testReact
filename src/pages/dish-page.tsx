@@ -1,7 +1,9 @@
 import { useParams, Link } from "react-router";
 import { useSelector } from "react-redux";
-import { selectDishById } from "../store/entities/dishes/slice";
+import { selectDishById, fetchDishById } from "../store/entities/dishes/slice";
 import { DishCounterContainer } from "../components/dishCounter/dishCounter-container";
+import { Loader } from "../components/loader/loader";
+import { useRequest } from "../store/hooks/use-requests";
 import type { RootState } from "../store/store";
 
 export const DishPage = () => {
@@ -10,6 +12,10 @@ export const DishPage = () => {
   const dish = useSelector((state: RootState) =>
     dishId ? selectDishById(state, dishId) : null
   );
+  
+  const { isLoading } = useRequest(fetchDishById, dishId);
+
+  if (isLoading) return <Loader />;
 
   if (!dishId || !dish) {
     return <div>Dish not found</div>;
