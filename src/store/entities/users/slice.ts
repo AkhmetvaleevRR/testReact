@@ -10,6 +10,12 @@ export const fetchUsers = createAsyncThunk(
   async (): Promise<User[]> => {
     const response = await fetch('http://localhost:3001/api/users');
     return response.json();
+  },
+  {
+    condition: (_, { getState }) => {
+      const state = getState() as any;
+      return state.users.ids.length === 0;
+    }
   }
 );
 

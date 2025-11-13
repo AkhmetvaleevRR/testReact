@@ -13,7 +13,7 @@ export const DishPage = () => {
     dishId ? selectDishById(state, dishId) : null
   );
   
-  const { isLoading } = useRequest(fetchDishById, dishId, !dish);
+  const { isLoading } = useRequest(fetchDishById, dishId);
 
   if (isLoading) return <Loader />;
 

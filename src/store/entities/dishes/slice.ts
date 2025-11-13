@@ -20,6 +20,12 @@ export const fetchDishById = createAsyncThunk(
   async (dishId: string): Promise<Dish> => {
     const response = await fetch(`http://localhost:3001/api/dish/${dishId}`);
     return response.json();
+  },
+  {
+    condition: (dishId, { getState }) => {
+      const state = getState() as any;
+      return !state.dishes.entities[dishId];
+    }
   }
 );
 
